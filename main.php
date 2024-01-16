@@ -3,9 +3,9 @@ require_once 'DBConnect.php';
 require_once 'ContactManager.php';
 require_once 'Contact.php';
 require_once 'Command.php';
+require_once 'config.php';
 
-$db = new DBConnect('contacts_db', '');
-$pdo = $db();
+$pdo = DBConnect::getInstance()->getPDO();
 $contactManager = new ContactManager($pdo);
 $command = new Command($contactManager);
 

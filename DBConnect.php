@@ -1,26 +1,39 @@
 <?php
 
+/*
+Définir la classe permettant la connexion à la base de données et la récupération de l'instance PDO
+en utilisant le pattern Singleton
+*/
+
 class DBConnect
 {
-  public function __construct(private string $dbName, private string $pw) {
-    $this->$dbName = $dbName;
-    $this->$pw = $pw;
+  private static $instance = null;
+
+  private $pdo;
+
+  private function __construct()
+  {
+    $this->pdo = new PDO(
+      'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8',
+      DB_USER,
+      DB_PASSWORD
+    );
   }
 
-  public function getPDO(): PDO {
-    try {
-      return new PDO(
-        'mysql:host=localhost;dbname=' . $this->dbName . ';charset=utf8',
-        'root',
-        $this->pw
-      );
-    } catch (Exception $e) {
-      die('Erreur : ' . $e->getMessage());
+  //instanciation de la classe
+  public static function getInstance()
+  {
+    if (self::$instance === null) {
+      self::$instance = new self();
     }
+
+    return self::$instance;
   }
 
-  public function __invoke(): PDO {
-    return $this->getPDO();
+  //récupération de l'objet PDO
+  public function getPDO()
+  {
+    return $this->pdo;
   }
 
 }
