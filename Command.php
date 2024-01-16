@@ -38,6 +38,12 @@ class Command
 
         echo 'Contact supprimé avec succès !' . "\n";
     }
+
+    public function modify($contact) {
+        $this->contactManager->updateContact($contact);
+
+        echo 'Contact modifié avec succès !' . "\n";
+    }
 }
 
 ?>

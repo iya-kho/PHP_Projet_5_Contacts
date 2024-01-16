@@ -41,6 +41,16 @@ class ContactManager
     $req = $this->pdo->prepare('DELETE FROM contacts WHERE id = :id');
     $req->execute(['id' => $id]);
   }
+
+  public function updateContact(Contact $contact): void {
+    $req = $this->pdo->prepare('UPDATE contacts SET name = :name, email = :email, phone_number = :phone_number WHERE id = :id');
+    $req->execute([
+      'id' => $contact->getId(),
+      'name' => $contact->getName(),
+      'email' => $contact->getEmail(),
+      'phone_number' => $contact->getPhone()
+    ]);
+  }
 }
 
 ?>
