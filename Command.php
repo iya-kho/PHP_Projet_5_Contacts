@@ -1,5 +1,5 @@
 <?php
-//Gérer les commandes de l'utilisateur
+//Manage user's commands
 class Command 
 {
     private $contactManager;
@@ -9,7 +9,7 @@ class Command
         $this->contactManager = new ContactManager;
     }
 
-    //Afficher la liste des contacts
+    //Show the list of contacts
     public function list()
     {
         $contacts = $this->contactManager->getAll();
@@ -24,7 +24,7 @@ class Command
         }
     }
 
-    //Afficher le détail d'un contact
+    //Show the details of a contact
     public function detail($id)
     {
         $contact = $this->contactManager->findById($id);
@@ -37,25 +37,23 @@ class Command
         echo $contact . "\n";
     }
 
-    //Créer un nouveau contact
+    //Create a contact
     public function create($contact) {
         $this->contactManager->insertContact($contact);
         echo 'Contact créé avec succès !' . "\n";
     }
 
-    //Supprimer un contact
+    //Delete a contact
     public function delete($id) {
         $this->contactManager->deleteById($id);
 
         echo 'Contact supprimé avec succès !' . "\n";
     }
 
-    //Modifier un contact
+    //Modify a contact
     public function modify($contact) {
         $this->contactManager->updateContact($contact);
 
         echo 'Contact modifié avec succès !' . "\n";
     }
 }
-
-?>

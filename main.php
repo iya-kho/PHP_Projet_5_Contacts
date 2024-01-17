@@ -5,7 +5,7 @@ require_once 'Contact.php';
 require_once 'Command.php';
 require_once 'config.php';
 
-//Objet qui gère les commandes de l'utilisateur
+//Object that manages the user's commands
 $command = new Command();
 
 while (true) {

@@ -1,8 +1,7 @@
 <?php
 
 /*
-Définir la classe permettant la connexion à la base de données et la récupération de l'instance PDO
-en utilisant le pattern Singleton
+Define the class allowing to connect to the database and to get the PDO instance
 */
 
 class DBConnect
@@ -20,7 +19,7 @@ class DBConnect
     );
   }
 
-  //instanciation de la classe
+  //Instanciation of the class
   public static function getInstance()
   {
     if (self::$instance === null) {
@@ -30,11 +29,10 @@ class DBConnect
     return self::$instance;
   }
 
-  //récupération de l'objet PDO
+  //Get the PDO instance
   public function getPDO()
   {
     return $this->pdo;
   }
 
 }
- ?>

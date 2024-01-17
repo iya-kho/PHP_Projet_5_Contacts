@@ -1,20 +1,22 @@
 <?php
 
-//Gérer les intéractions avec la base de données
+//Manage interactions with the database
 class ContactManager
 {
   private PDO $pdo;
 
-  public function __construct() {
+  public function __construct() 
+  {
     $this->pdo = DBConnect::getInstance()->getPDO();;
   }
 
   /**
-   * Récupérer tous les contacts
-   * @return array d'objets Contact
+   * Get all the contacts
+   * @return array of objects Contact
    */
 
-  public function getAll(): array {
+  public function getAll(): array 
+  {
     $req = $this->pdo->query('SELECT * FROM contacts ORDER BY id ASC');
     $data = $req->fetchAll();
     $contacts = [];
@@ -24,11 +26,12 @@ class ContactManager
     return $contacts;
   }
 
-  /*Récupérer un contact par son id
+  /*Get one contact by its id
     * @param int $id
     * @return Contact|null
   */
-  public function findById(int $id): Contact|null  {
+  public function findById(int $id): Contact|null  
+  {
     $req = $this->pdo->prepare('SELECT * FROM contacts WHERE id = :id');
     $req->execute(['id' => $id]);
     $data = $req->fetch();
@@ -42,10 +45,11 @@ class ContactManager
     return $contact;
   }
 
-  /*Insérer un nouveau contact
+  /*Create a new contact
    * @param Contact $contact
   */
-  public function insertContact(Contact $contact): void {
+  public function insertContact(Contact $contact): void 
+  {
     $req = $this->pdo->prepare('INSERT INTO contacts (name, email, phone_number) VALUES (:name, :email, :phone_number)');
     $req->execute([
       'name' => $contact->getName(),
@@ -54,18 +58,20 @@ class ContactManager
     ]);
   }
 
-  /*Supprimer un contact par son id
+  /*Delete a contact by its id
    * @param int $id
   */
-  public function deleteById(int $id): void {
+  public function deleteById(int $id): void 
+  {
     $req = $this->pdo->prepare('DELETE FROM contacts WHERE id = :id');
     $req->execute(['id' => $id]);
   }
 
-  /*Modifier un contact
+  /*Modify a contact
    * @param Contact $contact
   */
-  public function updateContact(Contact $contact): void {
+  public function updateContact(Contact $contact): void 
+  {
     $req = $this->pdo->prepare('UPDATE contacts SET name = :name, email = :email, phone_number = :phone_number WHERE id = :id');
     $req->execute([
       'id' => $contact->getId(),
@@ -75,6 +81,4 @@ class ContactManager
     ]);
   }
 }
-
-?>
 
