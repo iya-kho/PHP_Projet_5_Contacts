@@ -1,21 +1,33 @@
 <?php
 
+//Gérer les intéractions avec la base de données
 class ContactManager
 {
-  public function __construct(private PDO $pdo) {
-    $this->pdo = $pdo;
+  private PDO $pdo;
+
+  public function __construct() {
+    $this->pdo = DBConnect::getInstance()->getPDO();;
   }
+
+  /**
+   * Récupérer tous les contacts
+   * @return array d'objets Contact
+   */
 
   public function getAll(): array {
     $req = $this->pdo->query('SELECT * FROM contacts ORDER BY id ASC');
     $data = $req->fetchAll();
     $contacts = [];
-    foreach ($data as $contact) {
-      $contacts[] = new Contact($contact['id'], $contact['name'], $contact['email'], $contact['phone_number']);
+    foreach ($data as $row) {
+      $contacts[] = Contact::fromArray($row);
     }
     return $contacts;
   }
 
+  /*Récupérer un contact par son id
+    * @param int $id
+    * @return Contact|null
+  */
   public function findById(int $id): Contact|null  {
     $req = $this->pdo->prepare('SELECT * FROM contacts WHERE id = :id');
     $req->execute(['id' => $id]);
@@ -25,9 +37,14 @@ class ContactManager
       return null;
     }
 
-    return new Contact($data['id'], $data['name'], $data['email'], $data['phone_number']);
+    $contact = Contact::fromArray($data);
+
+    return $contact;
   }
 
+  /*Insérer un nouveau contact
+   * @param Contact $contact
+  */
   public function insertContact(Contact $contact): void {
     $req = $this->pdo->prepare('INSERT INTO contacts (name, email, phone_number) VALUES (:name, :email, :phone_number)');
     $req->execute([
@@ -37,11 +54,17 @@ class ContactManager
     ]);
   }
 
+  /*Supprimer un contact par son id
+   * @param int $id
+  */
   public function deleteById(int $id): void {
     $req = $this->pdo->prepare('DELETE FROM contacts WHERE id = :id');
     $req->execute(['id' => $id]);
   }
 
+  /*Modifier un contact
+   * @param Contact $contact
+  */
   public function updateContact(Contact $contact): void {
     $req = $this->pdo->prepare('UPDATE contacts SET name = :name, email = :email, phone_number = :phone_number WHERE id = :id');
     $req->execute([

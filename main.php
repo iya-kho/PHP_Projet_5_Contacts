@@ -5,9 +5,8 @@ require_once 'Contact.php';
 require_once 'Command.php';
 require_once 'config.php';
 
-$pdo = DBConnect::getInstance()->getPDO();
-$contactManager = new ContactManager($pdo);
-$command = new Command($contactManager);
+//Objet qui gère les commandes de l'utilisateur
+$command = new Command();
 
 while (true) {
     $userCommand = readline('Entrez votre commande : ');
