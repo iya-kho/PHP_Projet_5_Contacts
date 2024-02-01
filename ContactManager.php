@@ -61,10 +61,17 @@ class ContactManager
   /*Delete a contact by its id
    * @param int $id
   */
-  public function deleteById(int $id): void 
+  public function deleteById(int $id): bool
   {
     $req = $this->pdo->prepare('DELETE FROM contacts WHERE id = :id');
     $req->execute(['id' => $id]);
+    $result = $req->rowCount();
+
+    if ($result === 0) {
+      return false;
+    }
+
+    return true;
   }
 
   /*Modify a contact

@@ -23,9 +23,9 @@ while (true) {
     }
 
     if (strpos($userCommand, 'create') === 0) {
-        $contactInfo = str_replace(',', '', $userCommand);
-        $contactInfo = explode(' ', $contactInfo);
-        $command->create(new Contact(null, $contactInfo[1], $contactInfo[2], $contactInfo[3]));
+        $contactInfo = str_replace(['create', ', '], ['', ','], $userCommand);
+        $contactInfo = explode(',', $contactInfo);
+        $command->create(new Contact(null, $contactInfo[0], $contactInfo[1], $contactInfo[2]));
         continue;
     }
 

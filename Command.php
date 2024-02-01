@@ -45,7 +45,12 @@ class Command
 
     //Delete a contact
     public function delete($id) {
-        $this->contactManager->deleteById($id);
+        $result = $this->contactManager->deleteById($id);
+
+        if ($result === false) {
+            echo 'Contact introuvable' . "\n";
+            return;
+        }
 
         echo 'Contact supprimé avec succès !' . "\n";
     }
